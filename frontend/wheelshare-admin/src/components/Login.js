@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authAPI } from '../api';
 
-const Login = () => {
+const Login = ({ onLoginSuccess }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -12,8 +12,13 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await authAPI.login(formData);
-      localStorage.setItem('token', response.data.token);
-      window.location.reload();
+      
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        onLoginSuccess();
+      } else {
+        alert('Login failed: No token received');
+      }
     } catch (error) {
       alert('Login failed: ' + (error.response?.data?.message || 'Invalid credentials'));
     } finally {

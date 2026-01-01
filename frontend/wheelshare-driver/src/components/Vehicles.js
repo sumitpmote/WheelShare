@@ -57,17 +57,21 @@ const Vehicles = () => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
+        console.log('Submitting vehicle data:', vehicleData);
         if (editingVehicle) {
           await vehiclesAPI.update(editingVehicle.vehicleId, vehicleData);
           alert('Vehicle updated successfully!');
         } else {
-          await vehiclesAPI.create(vehicleData);
+          const response = await vehiclesAPI.create(vehicleData);
+          console.log('Vehicle creation response:', response);
           alert('Vehicle registered successfully! Awaiting admin verification.');
         }
         setShowModal(false);
         setEditingVehicle(null);
         fetchVehicles();
       } catch (error) {
+        console.error('Vehicle registration error:', error);
+        console.error('Error response:', error.response);
         alert(error.response?.data?.message || 'Operation failed');
       }
     };

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CabBooking.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+58dd6dae5ca46abc4d3700fece692a09495cd2dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("CabBooking.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CabBooking.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

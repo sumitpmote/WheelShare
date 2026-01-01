@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WheelShare.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+58dd6dae5ca46abc4d3700fece692a09495cd2dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("WheelShare.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WheelShare.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -6,6 +6,7 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import MyRides from './components/MyRides';
 import Vehicles from './components/Vehicles';
+import Earnings from './components/Earnings';
 import Notifications from './components/Notifications';
 import Navbar from './components/Navbar';
 
@@ -37,6 +38,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/rides" element={<MyRides />} />
             <Route path="/vehicles" element={<Vehicles />} />
+            <Route path="/earnings" element={<Earnings />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/" element={<Navigate to="/dashboard" />} />
             <Route path="*" element={<Navigate to="/dashboard" />} />

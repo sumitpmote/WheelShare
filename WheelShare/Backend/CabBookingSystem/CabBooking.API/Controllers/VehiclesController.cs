@@ -40,15 +40,37 @@ namespace CabBooking.API.Controllers
                 if (existingVehicle != null)
                     return BadRequest(new { message = "Vehicle with this number already exists" });
 
-                // Use hardcoded driver ID 1 - create driver profile if needed
-                var driverProfile = await _context.DriverProfiles.FirstOrDefaultAsync(d => d.DriverId == 1);
+                // Create a test user first if it doesn't exist
+                var testUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == "test@driver.com");
+                if (testUser == null)
+                {
+                    testUser = new ApplicationUser
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        UserName = "test@driver.com",
+                        Email = "test@driver.com",
+                        NormalizedUserName = "TEST@DRIVER.COM",
+                        NormalizedEmail = "TEST@DRIVER.COM",
+                        EmailConfirmed = true,
+                        FullName = "Test Driver",
+                        Role = "Driver",
+                        IsActive = true,
+                        CreatedAt = DateTime.UtcNow
+                    };
+                    _context.Users.Add(testUser);
+                    await _context.SaveChangesAsync();
+                }
+
+                // Use existing or create driver profile
+                var driverProfile = await _context.DriverProfiles.FirstOrDefaultAsync(d => d.UserId == testUser.Id);
                 if (driverProfile == null)
                 {
-                    // Create minimal driver profile without user reference
                     driverProfile = new DriverProfile
                     {
-                        UserId = "test-user-id", // Use dummy ID
+                        UserId = testUser.Id,
                         LicenseNumber = "TEST123",
+                        FullName = "Test Driver",
+                        PhoneNumber = "1234567890",
                         IsVerified = true
                     };
                     _context.DriverProfiles.Add(driverProfile);
@@ -79,7 +101,7 @@ namespace CabBooking.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = $"Error: {ex.Message}" });
+                return BadRequest(new { message = $"Error: {ex.Message}", innerException = ex.InnerException?.Message });
             }
         }
 

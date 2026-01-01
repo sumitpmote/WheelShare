@@ -13,8 +13,41 @@ const MyRides = () => {
 
   const fetchRides = async () => {
     try {
-      const response = await ridesAPI.getMyRides();
-      setRides(response.data);
+      // Mock data for rides
+      const mockRides = [
+        {
+          rideId: 1,
+          source: 'Mumbai Central',
+          destination: 'Pune Station',
+          rideDateTime: '2024-01-25T10:00:00',
+          availableSeats: 3,
+          farePerSeat: 250,
+          bookingsCount: 2,
+          rideStatus: 'Open'
+        },
+        {
+          rideId: 2,
+          source: 'Delhi Airport',
+          destination: 'Gurgaon Mall',
+          rideDateTime: '2024-01-26T14:30:00',
+          availableSeats: 4,
+          farePerSeat: 150,
+          bookingsCount: 1,
+          rideStatus: 'In Progress'
+        },
+        {
+          rideId: 3,
+          source: 'Bangalore IT Park',
+          destination: 'Mysore Palace',
+          rideDateTime: '2024-01-20T09:00:00',
+          availableSeats: 2,
+          farePerSeat: 200,
+          bookingsCount: 4,
+          rideStatus: 'Completed'
+        }
+      ];
+      
+      setRides(mockRides);
     } catch (error) {
       console.error('Error fetching rides:', error);
     } finally {

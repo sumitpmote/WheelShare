@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ridesAPI, vehiclesAPI, bookingsAPI } from '../api';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalRides: 0,
     activeRides: 0,
@@ -407,13 +409,22 @@ const Dashboard = () => {
             </div>
             <div className="card-body">
               <div className="d-grid gap-2">
-                <button className="btn btn-outline-primary btn-sm">
+                <button 
+                  className="btn btn-outline-primary btn-sm"
+                  onClick={() => navigate('/rides')}
+                >
                   View All Rides
                 </button>
-                <button className="btn btn-outline-info btn-sm">
+                <button 
+                  className="btn btn-outline-info btn-sm"
+                  onClick={() => navigate('/vehicles')}
+                >
                   Manage Vehicles
                 </button>
-                <button className="btn btn-outline-success btn-sm">
+                <button 
+                  className="btn btn-outline-success btn-sm"
+                  onClick={() => navigate('/earnings')}
+                >
                   Earnings Report
                 </button>
               </div>

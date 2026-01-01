@@ -30,6 +30,13 @@ const Sidebar = ({ logout }) => {
           User Management
         </Link>
         <Link 
+          className={`nav-link text-white rounded mb-1 ${isActive('/vehicles')}`} 
+          to="/vehicles"
+        >
+          <i className="bi bi-car-front me-2"></i>
+          Vehicle Management
+        </Link>
+        <Link 
           className={`nav-link text-white rounded mb-1 ${isActive('/bookings')}`} 
           to="/bookings"
         >

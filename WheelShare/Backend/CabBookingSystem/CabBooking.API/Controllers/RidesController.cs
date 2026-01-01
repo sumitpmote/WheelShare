@@ -79,6 +79,9 @@ namespace CabBooking.API.Controllers
             if (vehicle == null)
                 return BadRequest("No active vehicle found");
 
+            if (!vehicle.IsVerified)
+                return BadRequest("Vehicle must be verified by admin before creating rides");
+
             var (srcLat, srcLon) = await _geoService.GetCoordinates(dto.Source);
             var (destLat, destLon) = await _geoService.GetCoordinates(dto.Destination);
 

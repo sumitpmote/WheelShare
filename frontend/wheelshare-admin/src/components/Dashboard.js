@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { adminAPI } from '../api';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalDrivers: 0,
@@ -130,23 +132,35 @@ const Dashboard = () => {
             <div className="card-body">
               <div className="row">
                 <div className="col-md-3">
-                  <button className="btn btn-outline-primary w-100 mb-2">
+                  <button 
+                    className="btn btn-outline-primary w-100 mb-2"
+                    onClick={() => navigate('/users')}
+                  >
                     Manage Users
                   </button>
                 </div>
                 <div className="col-md-3">
-                  <button className="btn btn-outline-success w-100 mb-2">
+                  <button 
+                    className="btn btn-outline-success w-100 mb-2"
+                    onClick={() => navigate('/users')}
+                  >
                     Approve Drivers
                   </button>
                 </div>
                 <div className="col-md-3">
-                  <button className="btn btn-outline-info w-100 mb-2">
+                  <button 
+                    className="btn btn-outline-info w-100 mb-2"
+                    onClick={() => navigate('/vehicles')}
+                  >
                     Verify Vehicles
                   </button>
                 </div>
                 <div className="col-md-3">
-                  <button className="btn btn-outline-warning w-100 mb-2">
-                    View Reports
+                  <button 
+                    className="btn btn-outline-warning w-100 mb-2"
+                    onClick={() => navigate('/bookings')}
+                  >
+                    View Bookings
                   </button>
                 </div>
               </div>

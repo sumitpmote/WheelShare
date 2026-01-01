@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Login';
@@ -6,24 +6,34 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import BookingManagement from './components/BookingManagement';
 import UserManagement from './components/UserManagement';
+import VehicleManagement from './components/VehicleManagement';
 import Sidebar from './components/Sidebar';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const isAuthenticated = () => {
     const token = localStorage.getItem('token');
     return token !== null && token !== undefined && token !== '';
   };
 
+  useEffect(() => {
+    setIsLoggedIn(isAuthenticated());
+  }, []);
+
   const logout = () => {
     localStorage.removeItem('token');
-    localStorage.clear(); // Clear all localStorage
-    window.location.href = '/login';
+    setIsLoggedIn(false);
+  };
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
   };
 
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <div className="App">
-        {isAuthenticated() && (
+        {isLoggedIn && (
           <div className="d-flex">
             <Sidebar logout={logout} />
             <div className="flex-grow-1">
@@ -38,6 +48,7 @@ function App() {
               <Routes>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/users" element={<UserManagement />} />
+                <Route path="/vehicles" element={<VehicleManagement />} />
                 <Route path="/bookings" element={<BookingManagement />} />
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="*" element={<Navigate to="/dashboard" replace />} />
@@ -45,9 +56,9 @@ function App() {
             </div>
           </div>
         )}
-        {!isAuthenticated() && (
+        {!isLoggedIn && (
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login onLoginSuccess={handleLoginSuccess} />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
