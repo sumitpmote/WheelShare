@@ -1,0 +1,111 @@
+﻿using System.Linq;
+using CabBooking.API.Data;
+using CabBooking.API.DTOs;
+using CabBooking.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace CabBooking.API.Controllers
+{
+    [ApiController]
+    [Route("api/bookings")]
+    public class BookingsController : ControllerBase
+    {
+        private readonly ApplicationDbContext _context;
+
+        public BookingsController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        [Authorize(Roles = "Customer,Admin")]
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateBookingDto dto)
+        {
+            var ride = await _context.Rides.FindAsync(dto.RideId);
+            if (ride == null) return NotFound("Ride not found");
+            if (ride.RideStatus != "Open") return BadRequest("Ride not open");
+            if (dto.Seats <= 0) return BadRequest("Invalid seats");
+            if (ride.AvailableSeats < dto.Seats) return BadRequest("Not enough seats");
+
+            using var trx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                ride.AvailableSeats -= dto.Seats;
+                var booking = new Booking
+                {
+                    RideId = dto.RideId,
+                    CustomerId = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "",
+                    SeatsBooked = dto.Seats,
+                    TotalFare = ride.FarePerSeat * dto.Seats,
+                    BookingStatus = "Confirmed",
+                    BookedAt = DateTime.UtcNow
+                };
+
+                _context.Bookings.Add(booking);
+                await _context.SaveChangesAsync();
+
+                var payment = new Payment
+                {
+                    BookingId = booking.BookingId,
+                    Amount = booking.TotalFare,
+                    PaidAt = DateTime.UtcNow
+                };
+
+                _context.Payments.Add(payment);
+                await _context.SaveChangesAsync();
+
+                await trx.CommitAsync();
+
+                return CreatedAtAction(nameof(Get), new { id = booking.BookingId }, new BookingDto
+                {
+                    BookingId = booking.BookingId,
+                    RideId = booking.RideId,
+                    CustomerId = booking.CustomerId,
+                    SeatsBooked = booking.SeatsBooked,
+                    TotalFare = booking.TotalFare,
+                    BookingStatus = booking.BookingStatus
+                });
+            }
+            catch
+            {
+                await trx.RollbackAsync();
+                throw;
+            }
+        }
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var b = await _context.Bookings.FindAsync(id);
+            if (b == null) return NotFound();
+            return Ok(new BookingDto
+            {
+                BookingId = b.BookingId,
+                RideId = b.RideId,
+                CustomerId = b.CustomerId,
+                SeatsBooked = b.SeatsBooked,
+                TotalFare = b.TotalFare,
+                BookingStatus = b.BookingStatus
+            });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var list = await _context.Bookings.ToListAsync();
+            return Ok(list.Select(b => new BookingDto
+            {
+                BookingId = b.BookingId,
+                RideId = b.RideId,
+                CustomerId = b.CustomerId,
+                SeatsBooked = b.SeatsBooked,
+                TotalFare = b.TotalFare,
+                BookingStatus = b.BookingStatus
+            }));
+        }
+    }
+}

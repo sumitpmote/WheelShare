@@ -1,0 +1,64 @@
+﻿using System.Linq;
+using CabBooking.API.Data;
+using CabBooking.API.DTOs;
+using CabBooking.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace CabBooking.API.Controllers
+{
+    [ApiController]
+    [Route("api/bookings")]
+    public class BookingsController : ControllerBase
+    {
+        private readonly WheelShare.Application.Interfaces.IBookingService _service;
+
+        public BookingsController(WheelShare.Application.Interfaces.IBookingService service)
+        {
+            _service = service;
+        }
+
+        [Authorize(Roles = "Customer,Admin")]
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateBookingDto dto)
+        {
+            var userId = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+            var booking = await _service.CreateBookingAsync(dto, userId);
+            return CreatedAtAction(nameof(Get), new { id = booking.BookingId }, booking);
+        }
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var b = await _context.Bookings.FindAsync(id);
+            if (b == null) return NotFound();
+            return Ok(new BookingDto
+            {
+                BookingId = b.BookingId,
+                RideId = b.RideId,
+                CustomerId = b.CustomerId,
+                SeatsBooked = b.SeatsBooked,
+                TotalFare = b.TotalFare,
+                BookingStatus = b.BookingStatus
+            });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var list = await _context.Bookings.ToListAsync();
+            return Ok(list.Select(b => new BookingDto
+            {
+                BookingId = b.BookingId,
+                RideId = b.RideId,
+                CustomerId = b.CustomerId,
+                SeatsBooked = b.SeatsBooked,
+                TotalFare = b.TotalFare,
+                BookingStatus = b.BookingStatus
+            }));
+        }
+    }
+}

@@ -1,0 +1,12 @@
+﻿namespace WheelShare.Domain.Entities
+{
+    public class Vehicle
+    {
+        public int VehicleId { get; set; }
+        public string DriverId { get; set; } = null!;
+        public string VehicleNumber { get; set; } = null!;
+        public string VehicleType { get; set; } = null!; // "Cab" | "Carpool"
+        public int SeatCapacity { get; set; }
+        public bool IsActive { get; set; } = true;
+    }
+}

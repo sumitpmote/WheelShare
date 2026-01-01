@@ -1,0 +1,12 @@
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\obj\Debug\net8.0\WheelShare.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\obj\Debug\net8.0\WheelShare.Domain.AssemblyInfoInputs.cache
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\obj\Debug\net8.0\WheelShare.Domain.AssemblyInfo.cs
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\obj\Debug\net8.0\WheelShare.Domain.csproj.CoreCompileInputs.cache
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\bin\Debug\net8.0\WheelShare.Domain.deps.json
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\bin\Debug\net8.0\WheelShare.Domain.dll
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\bin\Debug\net8.0\WheelShare.Domain.pdb
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\obj\Debug\net8.0\WheelShare.Domain.csproj.AssemblyReference.cache
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\obj\Debug\net8.0\WheelShare.Domain.dll
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\obj\Debug\net8.0\refint\WheelShare.Domain.dll
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\obj\Debug\net8.0\WheelShare.Domain.pdb
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Domain\obj\Debug\net8.0\ref\WheelShare.Domain.dll

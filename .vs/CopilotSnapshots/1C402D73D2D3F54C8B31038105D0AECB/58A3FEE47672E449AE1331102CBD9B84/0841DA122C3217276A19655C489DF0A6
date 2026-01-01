@@ -1,0 +1,46 @@
+﻿using CabBooking.API.Data;
+using CabBooking.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace CabBooking.API.Controllers
+{
+    [ApiController]
+    [Route("api/drivers")]
+    public class DriversController : ControllerBase
+    {
+        private readonly ApplicationDbContext _context;
+
+        public DriversController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var list = await _context.DriverProfiles.Include(d => d.User).ToListAsync();
+            return Ok(list.Select(d => new
+            {
+                d.DriverId,
+                d.UserId,
+                FullName = d.User != null ? d.User.FullName : string.Empty,
+                d.LicenseNumber,
+                d.IsVerified
+            }));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("{id}/approve")]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var d = await _context.DriverProfiles.FindAsync(id);
+            if (d == null) return NotFound();
+            d.IsVerified = true;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+    }
+}

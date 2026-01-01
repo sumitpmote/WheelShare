@@ -1,0 +1,118 @@
+﻿using CabBooking.API.Data;
+using CabBooking.API.DTOs;
+using CabBooking.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace CabBooking.API.Controllers
+{
+    [ApiController]
+    [Route("api/rides")]
+    public class RidesController : ControllerBase
+    {
+        private readonly ApplicationDbContext _context;
+
+        public RidesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet("open")]
+        public async Task<IActionResult> GetOpenRides()
+        {
+            var rides = await _context.Rides
+                .Include(r => r.Vehicle)
+                .Where(r => r.RideStatus == "Open")
+                .ToListAsync();
+
+            return Ok(rides.Select(r => new RideDto
+            {
+                RideId = r.RideId,
+                VehicleId = r.VehicleId,
+                Source = r.Source,
+                Destination = r.Destination,
+                AvailableSeats = r.AvailableSeats,
+                FarePerSeat = r.FarePerSeat,
+                RideDateTime = r.RideDateTime,
+                RideStatus = r.RideStatus
+            }));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var r = await _context.Rides.FindAsync(id);
+            if (r == null) return NotFound();
+            return Ok(new RideDto
+            {
+                RideId = r.RideId,
+                VehicleId = r.VehicleId,
+                Source = r.Source,
+                Destination = r.Destination,
+                AvailableSeats = r.AvailableSeats,
+                FarePerSeat = r.FarePerSeat,
+                RideDateTime = r.RideDateTime,
+                RideStatus = r.RideStatus
+            });
+        }
+
+        [Authorize(Roles = "Driver,Admin")]
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateRideDto dto)
+        {
+            var vehicle = await _context.Vehicles.FindAsync(dto.VehicleId);
+            if (vehicle == null) return BadRequest("Vehicle not found");
+
+            var ride = new Ride
+            {
+                VehicleId = dto.VehicleId,
+                Source = dto.Source,
+                Destination = dto.Destination,
+                SourceLatitude = dto.SourceLatitude,
+                SourceLongitude = dto.SourceLongitude,
+                DestinationLatitude = dto.DestinationLatitude,
+                DestinationLongitude = dto.DestinationLongitude,
+                AvailableSeats = dto.AvailableSeats,
+                FarePerSeat = dto.FarePerSeat,
+                RideDateTime = dto.RideDateTime,
+                RideStatus = "Open"
+            };
+
+            _context.Rides.Add(ride);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(Get), new { id = ride.RideId }, new { ride.RideId });
+        }
+
+        [Authorize(Roles = "Driver,Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, CreateRideDto dto)
+        {
+            var r = await _context.Rides.FindAsync(id);
+            if (r == null) return NotFound();
+            r.Source = dto.Source;
+            r.Destination = dto.Destination;
+            r.SourceLatitude = dto.SourceLatitude;
+            r.SourceLongitude = dto.SourceLongitude;
+            r.DestinationLatitude = dto.DestinationLatitude;
+            r.DestinationLongitude = dto.DestinationLongitude;
+            r.AvailableSeats = dto.AvailableSeats;
+            r.FarePerSeat = dto.FarePerSeat;
+            r.RideDateTime = dto.RideDateTime;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [Authorize(Roles = "Driver,Admin")]
+        [HttpPost("{id}/close")]
+        public async Task<IActionResult> CloseRide(int id)
+        {
+            var r = await _context.Rides.FindAsync(id);
+            if (r == null) return NotFound();
+            r.RideStatus = "Completed";
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+    }
+}

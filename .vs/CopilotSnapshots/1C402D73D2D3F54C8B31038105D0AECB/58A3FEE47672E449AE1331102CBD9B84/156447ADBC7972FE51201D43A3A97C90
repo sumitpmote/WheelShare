@@ -1,0 +1,12 @@
+﻿namespace WheelShare.Domain.Entities
+{
+    public class Booking
+    {
+        public int BookingId { get; set; }
+        public int RideId { get; set; }
+        public string CustomerId { get; set; } = null!;
+        public int SeatsBooked { get; set; }
+        public decimal TotalFare { get; set; }
+        public string Status { get; set; } = "Pending"; // Pending | Confirmed | Cancelled
+    }
+}

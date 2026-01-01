@@ -1,0 +1,5 @@
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Infrastructure\obj\Debug\net8.0\WheelShare.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Infrastructure\obj\Debug\net8.0\WheelShare.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Infrastructure\obj\Debug\net8.0\WheelShare.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Infrastructure\obj\Debug\net8.0\WheelShare.Infrastructure.AssemblyInfo.cs
+C:\Users\sumit\OneDrive\Desktop\CDAC\WheelShare2\WheelShare\Backend\CabBookingSystem\WheelShare.Infrastructure\obj\Debug\net8.0\WheelShare.Infrastructure.csproj.CoreCompileInputs.cache

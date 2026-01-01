@@ -1,0 +1,97 @@
+﻿using System.Linq;
+using CabBooking.API.Data;
+using CabBooking.API.DTOs;
+using CabBooking.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace CabBooking.API.Controllers
+{
+    [ApiController]
+    [Route("api/vehicles")]
+    public class VehiclesController : ControllerBase
+    {
+        private readonly ApplicationDbContext _context;
+
+        public VehiclesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var list = await _context.Vehicles.ToListAsync();
+            return Ok(list.Select(v => new VehicleDto
+            {
+                VehicleId = v.VehicleId,
+                DriverId = v.DriverId,
+                VehicleNumber = v.VehicleNumber,
+                VehicleType = v.VehicleType,
+                SeatCapacity = v.SeatCapacity,
+                IsActive = v.IsActive
+            }));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var v = await _context.Vehicles.FindAsync(id);
+            if (v == null) return NotFound();
+            return Ok(new VehicleDto
+            {
+                VehicleId = v.VehicleId,
+                DriverId = v.DriverId,
+                VehicleNumber = v.VehicleNumber,
+                VehicleType = v.VehicleType,
+                SeatCapacity = v.SeatCapacity,
+                IsActive = v.IsActive
+            });
+        }
+
+        [Authorize(Roles = "Driver,Admin")]
+        [HttpPost]
+        public async Task<IActionResult> Create(VehicleDto dto)
+        {
+            var vehicle = new Vehicle
+            {
+                DriverId = dto.DriverId,
+                VehicleNumber = dto.VehicleNumber,
+                VehicleType = dto.VehicleType,
+                SeatCapacity = dto.SeatCapacity,
+                IsActive = dto.IsActive
+            };
+            _context.Vehicles.Add(vehicle);
+            await _context.SaveChangesAsync();
+            dto.VehicleId = vehicle.VehicleId;
+            return CreatedAtAction(nameof(Get), new { id = vehicle.VehicleId }, dto);
+        }
+
+        [Authorize(Roles = "Driver,Admin")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, VehicleDto dto)
+        {
+            if (id != dto.VehicleId) return BadRequest();
+            var v = await _context.Vehicles.FindAsync(id);
+            if (v == null) return NotFound();
+            v.VehicleNumber = dto.VehicleNumber;
+            v.VehicleType = dto.VehicleType;
+            v.SeatCapacity = dto.SeatCapacity;
+            v.IsActive = dto.IsActive;
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [Authorize(Roles = "Driver,Admin")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var v = await _context.Vehicles.FindAsync(id);
+            if (v == null) return NotFound();
+            _context.Vehicles.Remove(v);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+    }
+}

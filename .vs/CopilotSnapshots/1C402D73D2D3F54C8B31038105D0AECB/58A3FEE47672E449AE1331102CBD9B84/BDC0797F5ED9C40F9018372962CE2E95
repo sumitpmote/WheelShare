@@ -1,0 +1,21 @@
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace CabBooking.API.Models
+{
+    public class ApplicationUser : IdentityUser
+    {
+        // Custom fields (extra fields beyond Identity)
+
+        public string FullName { get; set; }
+
+        // Customer / Driver / Admin
+        public string Role { get; set; }
+
+        public string? OtpCode { get; set; }
+        public DateTime? OtpExpiry { get; set; }
+
+        public bool IsActive { get; set; } = true;
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    }
+}
