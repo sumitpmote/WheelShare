@@ -2,18 +2,18 @@
 
 ## 🚀 Project Overview
 
-WheelShare is a comprehensive cab booking and carpooling platform built with .NET 8 Web API backend and React frontends. The system supports three user roles: Admin, Customer, and Driver with complete functionality for ride management, booking, and administration.
+WheelShare is a Unified cab booking and carpooling platform built with Springboot and .NET 8 Web API backend and React frontends. The system supports three user roles: Admin, Customer, and Driver with complete functionality for ride management, booking, and administration.
 
 ## 🏗️ Architecture
 
-### Backend (.NET 8 Web API)
+### Backend
 - **Clean Architecture** with Domain, Application, Infrastructure layers
 - **ASP.NET Core Identity** for authentication
 - **JWT + OTP** two-factor authentication
 - **Entity Framework Core** with SQL Server
 - **RESTful APIs** for all operations
 
-### Frontend (React)
+### Frontend
 - **Three separate applications** for different user roles
 - **Bootstrap 5** for responsive UI
 - **Axios** for API communication
@@ -38,10 +38,11 @@ WheelShare2/
 ## 🔧 Setup Instructions
 
 ### Prerequisites
+- Springboot
 - .NET 8 SDK
-- Node.js (v16+)
+- Node.js 
 - SQL Server
-- Visual Studio Code or Visual Studio
+- Spring tool suite (STS), Visual Studio
 
 ### Backend Setup
 1. Navigate to backend directory:
