@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36804.6 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WheelShare_dotNet", "WheelShare_dotNet\WheelShare_dotNet.csproj", "{1A219DB0-19D5-4585-BF9A-49FBCDB60B3E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A219DB0-19D5-4585-BF9A-49FBCDB60B3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A219DB0-19D5-4585-BF9A-49FBCDB60B3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A219DB0-19D5-4585-BF9A-49FBCDB60B3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A219DB0-19D5-4585-BF9A-49FBCDB60B3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ADECD922-CA44-484A-8879-3F50C2063248}
+	EndGlobalSection
+EndGlobal
